@@ -27,17 +27,21 @@ export default function App() {
 }
 
 function Accordion({faqs}) {
+  const [curtOpen,setCurOpen]=useState(null)
+ 
+  // const [isOpen,setIsOpen]=useState(false);
+  
   return <div>
 {faqs.map(
 
-   (f,i)=> <AccordionItem num={i} title={f.title} text={f.text} />)}
+   (f,i)=> <AccordionItem curtOpen={curtOpen} setCur={setCurOpen} num={i} title={f.title} text={f.text} />)}
   </div>;
 }
-function AccordionItem({num,title,text}){
+function AccordionItem({num,title,text,curtOpen,setCurOpen}){
+  const isOpen=num===curtOpen
   function handleToogle (){
-    setIsOpen(isOpen=>!isOpen)
-  }
-  const [isOpen,setIsOpen]=useState(false);
+setCurOpen(num) 
+ }
 return(
   <div className={`item ${isOpen ? 'open': ''}`} onClick={handleToogle}>
     <p className="number">{num}</p>
