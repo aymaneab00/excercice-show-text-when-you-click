@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Children, useState } from "react";
 import './App.css'
 const faqs = [
   {
@@ -26,27 +26,42 @@ export default function App() {
   );
 }
 
-function Accordion({faqs}) {
-  const [curopen,setcurOpen]=useState(null);
+function Accordion({ faqs }) {
+  const [curopen, setcurOpen] = useState(null);
 
   return <div>
-{faqs.map(
+    {faqs.map(
 
-   (f,i)=> <AccordionItem curopen={curopen} onopen={setcurOpen} num={i} title={f.title} text={f.text} />)}
+      (f, i) =>
+      <AccordionItem 
+      curopen={curopen} 
+      onopen={setcurOpen}
+       num={i} 
+       title={f.title}>
+         {f.text}
+         </AccordionItem>)}
+         <AccordionItem 
+      curopen={curopen} 
+      onopen={setcurOpen}
+       num={26} 
+       title={"test props.children"}>
+         <p>ABC </p>
+         <h1>test props children</h1>
+         </AccordionItem>
   </div>;
 }
-function AccordionItem({num,title,text , curopen,onopen}){
-  const isOpen=num===curopen;
-  function handleToogle (){
-onopen(num)
+function AccordionItem({ num, title, children, curopen, onopen }) {
+  const isOpen = num === curopen;
+  function handleToogle() {
+    onopen(isOpen ? null : num)
   }
-return(
-  <div className={`item ${isOpen ? 'open': ''}`} onClick={handleToogle}>
-    <p className="number">{num}</p>
-    <p className="text">{title}</p>
-    <p className="icon">{isOpen ? "+" : "-"}</p>
-    { isOpen && <div className="content-box">{text}</div>}
+  return (
+    <div className={`item ${isOpen ? 'open' : ''}`} onClick={handleToogle}>
+      <p className="number">{num}</p>
+      <p className="text">{title}</p>
+      <p className="icon">{isOpen ? "+" : "-"}</p>
+      {isOpen && <div className="content-box">{children}</div>}
 
-  </div>
-)
+    </div>
+  )
 }
